@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>婚礼宾客座位查询</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #f9f0ff 0%, #e6f7ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            color: #e91e63;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
+
+        .search-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b9d, #ff8e53);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .search-input:focus {
+            border-color: #ff6b9d;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+        }
+
+        .search-hint {
+            margin-top: 12px;
+            color: #777;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            display: none;
+            animation: slideUp 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card.show {
+            display: block;
+        }
+
+        .table-number {
+            font-size: 22px;
+            color: #e91e63;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-number::before {
+            content: '🏷️';
+        }
+
+        .guest-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .guest-list li {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .guest-list li:last-child {
+            border-bottom: none;
+        }
+
+        .guest-list li.highlight {
+            background: linear-gradient(90deg, rgba(255, 107, 157, 0.1), rgba(255, 142, 83, 0.1));
+            border-radius: 8px;
+            color: #e91e63;
+            font-weight: bold;
+            transform: translateX(5px);
+        }
+
+        .guest-list li::before {
+            content: '👤';
+            margin-right: 10px;
+            opacity: 0.6;
+        }
+
+        .empty-result {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 18px;
+        }
+
+        .empty-result::before {
+            content: '🔍';
+            font-size: 48px;
+            display: block;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .table-map {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+        }
+
+        .table-map h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-map h3::before {
+            content: '🗺️';
+        }
+
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+        }
+
+        .table-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            border-radius: 10px;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .table-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-item.active {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8e53 100%);
+            color: white;
+            border-color: #ff6b9d;
+        }
+
+        .table-number-circle {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .table-guest-count {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .instructions {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .instructions h4 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructions h4::before {
+            content: '💡';
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #888;
+            font-size: 14px;
+            padding: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .search-box,
+            .result-card,
+            .table-map {
+                padding: 20px;
+            }
+
+            .tables-grid {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 婚礼宾客座位查询</h1>
+            <p>输入姓名、拼音或首字母查询座位信息</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="请输入宾客姓名（如：林玥昊、linyuehao 或 lyh）" id="searchInput"
+                autocomplete="off">
+            <div class="search-hint">
+                💡 支持中文姓名、全拼、拼音首字母搜索
+            </div>
+        </div>
+
+        <div class="result-card" id="resultCard">
+            <div class="table-number" id="tableNumber"></div>
+            <ul class="guest-list" id="guestList"></ul>
+        </div>
+
+        <div class="empty-result" id="emptyResult">
+            请输入姓名进行搜索
+        </div>
+
+        <div class="table-map">
+            <h3>座位分布图（共15桌）</h3>
+            <div class="tables-grid" id="tablesGrid"></div>
+        </div>
+
+        <div class="instructions">
+            <h4>使用说明</h4>
+            <p>1. 在搜索框输入宾客姓名、拼音或拼音首字母</p>
+            <p>2. 点击座位分布图中的桌号可查看该桌宾客</p>
+            <p>3. 搜索结果中，当前搜索的宾客会高亮显示</p>
+            <p>4. 可直接分享此页面链接给其他宾客</p>
+        </div>
+
+        <div class="footer">
+            祝您有一个愉快的婚礼体验 💕
+        </div>
+    </div>
+
+    <script>
+        // 拼音转换工具（简版）
+        const pinyinDict = {
+            '黄': 'huang', '露': 'lu',
+            '刘': 'liu', '亦': 'yi', '乐': 'le',
+            '胡': 'hu', '家': 'jia', '铭': 'ming',
+            '林': 'lin', '玥': 'yue', '昊': 'hao',
+            '高': 'gao', '鑫': 'xin',
+            '张': 'zhang', '环': 'huan', '宇': 'yu',
+            '杰': 'jie', '王': 'wang', '钰': 'yu', '轩': 'xuan',
+            '罗': 'luo', '翔': 'xiang',
+            '赵': 'zhao', '欣': 'xin', '新': 'xin',
+            '斯': 'si', '小': 'xiao', '寒': 'han',
+            '潘': 'pan', '俊': 'jun', '伯': 'bo',
+            // 可以继续添加其他字符
+        };
+
+        function getPinyin(name) {
+            let fullPinyin = '';
+            let initials = '';
+
+            for (let char of name) {
+                if (pinyinDict[char]) {
+                    fullPinyin += pinyinDict[char];
+                    initials += pinyinDict[char].charAt(0);
+                } else {
+                    fullPinyin += char;
+                    initials += char;
+                }
+            }
+
+            return {
+                fullPinyin: fullPinyin.toLowerCase(),
+                initials: initials.toLowerCase()
+            };
+        }
+
+        // 宾客数据
+        const guestsData = [
+            {
+                table: 1,
+                guests: [
+                    { name: "黄露" },
+                    { name: "刘亦乐" },
+                    { name: "胡家铭" },
+                    { name: "林玥昊" },
+                    { name: "高鑫" }
+                ]
+            },
+            {
+                table: 2,
+                guests: [
+                    { name: "张环宇" },
+                    { name: "刘杰" },
+                    { name: "王钰轩" },
+                    { name: "罗宇翔" },
+                    { name: "赵欣新" },
+                    { name: "斯小寒" },
+                    { name: "潘俊伯" }
+                ]
+            },
+            // 这里添加第3-15桌的数据，格式相同
+            // 为演示，先添加一些示例数据
+            {
+                table: 3,
+                guests: [
+                    { name: "李明" },
+                    { name: "王芳" },
+                    { name: "张伟" },
+                    { name: "刘洋" },
+                    { name: "陈静" }
+                ]
+            },
+            {
+                table: 4,
+                guests: [
+                    { name: "周涛" },
+                    { name: "吴霞" },
+                    { name: "郑军" },
+                    { name: "孙丽" },
+                    { name: "钱勇" }
+                ]
+            },
+            // ... 继续添加直到15桌
+        ];
+
+        // 为所有宾客生成拼音数据
+        guestsData.forEach(tableData => {
+            tableData.guests.forEach(guest => {
+                const pinyinData = getPinyin(guest.name);
+                guest.fullPinyin = pinyinData.fullPinyin;
+                guest.initials = pinyinData.initials;
+            });
+        });
+
+        // DOM元素
+        const searchInput = document.getElementById('searchInput');
+        const resultCard = document.getElementById('resultCard');
+        const tableNumber = document.getElementById('tableNumber');
+        const guestList = document.getElementById('guestList');
+        const emptyResult = document.getElementById('emptyResult');
+        const tablesGrid = document.getElementById('tablesGrid');
+
+        // 搜索函数
+        function searchGuest(query) {
+            query = query.trim().toLowerCase();
+            if (!query) {
+                resultCard.classList.remove('show');
+                emptyResult.style.display = 'block';
+                emptyResult.innerHTML = '请输入姓名进行搜索';
+                return;
+            }
+
+            let found = false;
+
+            // 遍历所有桌
+            guestsData.forEach(tableData => {
+                // 遍历该桌所有宾客
+                tableData.guests.forEach(guest => {
+                    // 检查是否匹配（姓名、全拼、首字母）
+                    if (guest.name.toLowerCase().includes(query) ||
+                        guest.fullPinyin.includes(query) ||
+                        guest.initials.includes(query)) {
+
+                        displayResult(tableData, guest.name);
+                        found = true;
+                    }
+                });
+            });
+
+            if (!found) {
+                resultCard.classList.remove('show');
+                emptyResult.style.display = 'block';
+                emptyResult.innerHTML = `未找到 "${query}" 对应的宾客<br><small>请检查输入是否正确</small>`;
+            }
+        }
+
+        // 显示结果
+        function displayResult(tableData, highlightName) {
+            resultCard.classList.add('show');
+            emptyResult.style.display = 'none';
+
+            tableNumber.innerHTML = `第 ${tableData.table} 桌`;
+
+            guestList.innerHTML = '';
+            tableData.guests.forEach(guest => {
+                const li = document.createElement('li');
+                li.textContent = guest.name;
+                if (guest.name === highlightName) {
+                    li.classList.add('highlight');
+                }
+                guestList.appendChild(li);
+            });
+
+            // 更新座位图高亮
+            updateTableHighlight(tableData.table);
+        }
+
+        // 显示某桌的所有宾客
+        function showTableGuests(tableNum) {
+            const tableData = guestsData.find(t => t.table === tableNum);
+            if (tableData) {
+                displayResult(tableData, '');
+                searchInput.value = '';
+            }
+        }
+
+        // 更新座位图高亮
+        function updateTableHighlight(activeTable) {
+            document.querySelectorAll('.table-item').forEach(item => {
+                const tableNum = parseInt(item.dataset.table);
+                if (tableNum === activeTable) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // 初始化座位分布图
+        function initTableMap() {
+            guestsData.forEach(tableData => {
+                const tableDiv = document.createElement('div');
+                tableDiv.className = 'table-item';
+                tableDiv.dataset.table = tableData.table;
+
+                tableDiv.innerHTML = `
+                    <div class="table-number-circle">${tableData.table}</div>
+                    <div class="table-guest-count">${tableData.guests.length}人</div>
+                `;
+
+                tableDiv.addEventListener('click', () => {
+                    showTableGuests(tableData.table);
+                });
+
+                tablesGrid.appendChild(tableDiv);
+            });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initTableMap();
+
+            // 搜索输入事件
+            let searchTimer;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(() => {
+                    searchGuest(e.target.value);
+                }, 300);
+            });
+
+            // 显示使用说明
+            setTimeout(() => {
+                if (!searchInput.value) {
+                    emptyResult.innerHTML = '请输入姓名进行搜索<br><small>例如：林玥昊、linyuehao 或 lyh</small>';
+                }
+            }, 1000);
+        });
+
+        // URL参数处理（支持直接分享链接）
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            if (name) {
+                searchInput.value = name;
+                searchGuest(name);
+            }
+        }
+
+        // 页面加载时检查URL参数
+        window.addEventListener('load', checkUrlParams);
+    </script>
+</body>
+
+</html>
