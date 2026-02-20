@@ -1,959 +1,338 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Welcome Wedding</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      font-family: 'Inter', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
-      background: linear-gradient(135deg, #fef9f0 0%, #f5e6d3 50%, #f0e0c9 100%);
-      min-height: 100vh;
-      padding: 20px;
-      color: #5c4b37;
-      line-height: 1.6;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(244, 228, 177, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(255, 250, 240, 0.1) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
-      padding: 40px 30px;
-      background: linear-gradient(135deg, rgba(255, 248, 240, 0.95) 0%, rgba(255, 245, 235, 0.9) 100%);
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(92, 75, 55, 0.08);
-      border: 1px solid rgba(255, 240, 220, 0.6);
-      backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #d4af37, #f4e4b1, #d4af37);
-    }
-
-    .header::after {
-      content: '💐';
-      position: absolute;
-      top: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 24px;
-      opacity: 0.3;
-    }
-
-    .header h1 {
-      font-family: 'Dancing Script', cursive;
-      color: #8b6b46;
-      font-size: 48px;
-      margin-bottom: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      background: linear-gradient(45deg, #d4af37, #f4e4b1, #d4af37);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 200% 200%;
-      animation: gradientShift 3s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-    }
-
-    .header p {
-      color: #8c7b69;
-      font-size: 18px;
-      font-weight: 300;
-      opacity: 0.9;
-    }
-
-    .search-box {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 250, 240, 0.9) 100%);
-      border-radius: 20px;
-      padding: 30px;
-      margin-bottom: 40px;
-      box-shadow: 0 8px 32px rgba(92, 75, 55, 0.06);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255, 240, 220, 0.8);
-      backdrop-filter: blur(8px);
-    }
-
-    .search-box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #d4af37, #f4e4b1, #d4af37);
-    }
-
-    .search-box::after {
-      content: '🔍';
-      position: absolute;
-      top: -20px;
-      right: 20px;
-      font-size: 20px;
-      opacity: 0.2;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 18px 24px;
-      font-size: 18px;
-      border: 2px solid #e8d9c5;
-      border-radius: 16px;
-      outline: none;
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.8);
-      color: #5c4b37;
-      font-weight: 400;
-    }
-
-    .search-input:focus {
-      border-color: #d4af37;
-      background: white;
-      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
-      transform: translateY(-1px);
-    }
-
-    .search-input::placeholder {
-      color: #a89a87;
-      font-weight: 300;
-    }
-
-    .search-hint {
-      margin-top: 16px;
-      color: #8c7b69;
-      font-size: 15px;
-      text-align: center;
-      font-weight: 300;
-      opacity: 0.8;
-    }
-
-    .result-card {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 250, 240, 0.9) 100%);
-      border-radius: 20px;
-      padding: 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 8px 32px rgba(92, 75, 55, 0.06);
-      display: none;
-      animation: slideUp 0.4s ease;
-      border: 1px solid rgba(255, 240, 220, 0.8);
-      backdrop-filter: blur(8px);
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
-    }
-
-    .result-card.show {
-      display: block;
-    }
-
-    .table-number {
-      font-size: 24px;
-      color: #8b6b46;
-      font-weight: 600;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .table-number::before {
-      content: '🏷️';
-      font-size: 28px;
-    }
-
-    .guest-list {
-      list-style: none;
-      margin-top: 20px;
-    }
-
-    .guest-list li {
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(232, 217, 197, 0.5);
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      transition: all 0.3s ease;
-      color: #5c4b37;
-      border-radius: 10px;
-      margin-bottom: 8px;
-    }
-
-    .guest-list li:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-    }
-
-    .guest-list li:hover {
-      background: rgba(255, 250, 240, 0.6);
-      transform: translateX(5px);
-    }
-
-    .guest-list li.highlight {
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(244, 228, 177, 0.1));
-      border-radius: 10px;
-      color: #8b6b46;
-      font-weight: 600;
-      transform: translateX(8px);
-      border-left: 4px solid #d4af37;
-    }
-
-    .guest-list li::before {
-      content: '👤';
-      margin-right: 12px;
-      opacity: 0.7;
-      font-size: 20px;
-    }
-
-    .empty-result {
-      text-align: center;
-      padding: 60px 30px;
-      color: #8c7b69;
-      font-size: 20px;
-      font-weight: 300;
-    }
-
-    .empty-result::before {
-      content: '🔍';
-      font-size: 64px;
-      display: block;
-      margin-bottom: 20px;
-      opacity: 0.4;
-    }
-
-    .table-map {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 250, 240, 0.9) 100%);
-      border-radius: 20px;
-      padding: 30px;
-      margin-top: 40px;
-      box-shadow: 0 8px 32px rgba(92, 75, 55, 0.06);
-      border: 1px solid rgba(255, 240, 220, 0.8);
-      backdrop-filter: blur(8px);
-    }
-
-    .table-map h3 {
-      color: #8b6b46;
-      margin-bottom: 25px;
-      font-size: 22px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-    }
-
-    .table-map h3::before {
-      content: '🗺️';
-      font-size: 26px;
-    }
-
-    .tables-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 16px;
-    }
-
-    .table-item {
-      background: linear-gradient(135deg, rgba(255, 250, 240, 0.8) 0%, rgba(240, 230, 210, 0.6) 100%);
-      border-radius: 16px;
-      padding: 20px 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 2px solid rgba(232, 217, 197, 0.5);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .table-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #d4af37, #f4e4b1);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    .table-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(92, 75, 55, 0.1);
-      border-color: rgba(212, 175, 55, 0.3);
-    }
-
-    .table-item:hover::before {
-      transform: scaleX(1);
-    }
-
-    .table-item.active {
-      background: linear-gradient(135deg, #d4af37 0%, #f4e4b1 100%);
-      color: white;
-      border-color: #d4af37;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-    }
-
-    .table-item.active::before {
-      transform: scaleX(1);
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .table-number-circle {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .table-guest-count {
-      font-size: 13px;
-      opacity: 0.8;
-      font-weight: 300;
-    }
-
-    .instructions {
-      margin-top: 40px;
-      padding: 30px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 250, 240, 0.7) 100%);
-      border-radius: 20px;
-      font-size: 15px;
-      color: #8c7b69;
-      line-height: 1.7;
-      border: 1px solid rgba(255, 240, 220, 0.6);
-      backdrop-filter: blur(8px);
-    }
-
-    .instructions h4 {
-      color: #8b6b46;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      font-size: 18px;
-    }
-
-    .instructions h4::before {
-      content: '💡';
-      font-size: 20px;
-    }
-
-    .instructions p {
-      margin-bottom: 12px;
-      padding-left: 8px;
-      border-left: 2px solid rgba(212, 175, 55, 0.3);
-    }
-
-    .wedding-timeline {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 250, 240, 0.9) 100%);
-      border-radius: 20px;
-      padding: 30px;
-      margin-top: 40px;
-      box-shadow: 0 8px 32px rgba(92, 75, 55, 0.06);
-      border: 1px solid rgba(255, 240, 220, 0.8);
-      backdrop-filter: blur(8px);
-    }
-
-    .wedding-timeline h3 {
-      color: #8b6b46;
-      margin-bottom: 25px;
-      font-size: 22px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-    }
-
-    .timeline-container {
-      position: relative;
-    }
-
-    .timeline-container::before {
-      content: '';
-      position: absolute;
-      left: 30px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, #d4af37, #f4e4b1, #d4af37);
-    }
-
-    .timeline-item {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 30px;
-      position: relative;
-      opacity: 0;
-      transform: translateX(-20px);
-      animation: timelineSlideIn 0.6s ease forwards;
-    }
-
-    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
-    .timeline-item:nth-child(2) { animation-delay: 0.3s; }
-    .timeline-item:nth-child(3) { animation-delay: 0.5s; }
-
-    @keyframes timelineSlideIn {
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .timeline-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .timeline-time {
-      background: linear-gradient(135deg, #d4af37, #f4e4b1);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 16px;
-      min-width: 80px;
-      text-align: center;
-      margin-right: 20px;
-      position: relative;
-      z-index: 2;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-    }
-
-    .timeline-content {
-      flex: 1;
-      background: rgba(255, 250, 240, 0.6);
-      padding: 20px;
-      border-radius: 12px;
-      border-left: 4px solid #d4af37;
-    }
-
-    .timeline-content h4 {
-      color: #8b6b46;
-      margin-bottom: 8px;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .timeline-content p {
-      color: #8c7b69;
-      font-size: 15px;
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 50px;
-      color: #8c7b69;
-      font-size: 16px;
-      padding: 30px 20px;
-      font-weight: 300;
-      opacity: 0.8;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-        max-width: 100%;
-      }
-
-      .header {
-        padding: 30px 20px;
-        margin-bottom: 30px;
-      }
-
-      .header h1 {
-        font-size: 36px;
-      }
-
-      .header p {
-        font-size: 16px;
-      }
-
-      .search-box, .result-card, .table-map, .wedding-timeline, .instructions {
-        padding: 25px 20px;
-        margin-bottom: 25px;
-      }
-
-      .timeline-container::before {
-        left: 20px;
-      }
-
-      .timeline-time {
-        min-width: 70px;
-        margin-right: 15px;
-        font-size: 14px;
-        padding: 6px 12px;
-      }
-
-      .timeline-content {
-        padding: 15px;
-      }
-
-      .timeline-content h4 {
-        font-size: 16px;
-      }
-
-      .timeline-content p {
-        font-size: 14px;
-      }
-
-      .search-input {
-        padding: 16px 20px;
-        font-size: 16px;
-      }
-
-      .tables-grid {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-        gap: 12px;
-      }
-
-      .table-item {
-        padding: 16px 8px;
-      }
-
-      .table-number-circle {
-        font-size: 18px;
-      }
-
-      .guest-list li {
-        padding: 14px 16px;
-        font-size: 16px;
-      }
-
-      .empty-result {
-        padding: 40px 20px;
-        font-size: 18px;
-      }
-
-      .empty-result::before {
-        font-size: 48px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header h1 {
-        font-size: 32px;
-      }
-
-      .tables-grid {
-        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-        gap: 10px;
-      }
-
-      .table-item {
-        padding: 14px 6px;
-      }
-
-      .table-number-circle {
-        font-size: 16px;
-      }
-
-      .table-guest-count {
-        font-size: 12px;
-      }
-    }
-  </style>
-</head>
-<body>
-<div class="container">
-  <div class="header">
-    <h1>💒 Welcome Wedding</h1>
-    <p>输入姓名、拼音或首字母查询座位信息</p>
-  </div>
-
-  <div class="search-box">
-    <input
-            type="text"
-            class="search-input"
-            placeholder="请输入宾客姓名（如：林玥昊、linyuehao 或 lyh）"
-            id="searchInput"
-            autocomplete="off"
-    >
-    <div class="search-hint">
-      💡 支持中文姓名、全拼、拼音首字母搜索
-    </div>
-  </div>
-
-  <div class="result-card" id="resultCard">
-    <div class="table-number" id="tableNumber"></div>
-    <ul class="guest-list" id="guestList"></ul>
-  </div>
-
-  <div class="empty-result" id="emptyResult">
-    请输入姓名进行搜索
-  </div>
-
-  <div class="table-map">
-    <h3>座位分布图（共15桌）</h3>
-    <div class="tables-grid" id="tablesGrid"></div>
-  </div>
-
-  <div class="wedding-timeline">
-    <h3>💫 婚礼时间安排</h3>
-    <div class="timeline-container">
-      <div class="timeline-item">
-        <div class="timeline-time">10:00</div>
-        <div class="timeline-content">
-          <h4>室内合照环节</h4>
-          <p>与新人合影留念，记录美好时刻</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">11:38</div>
-        <div class="timeline-content">
-          <h4>仪式环节</h4>
-          <p>婚礼正式仪式，见证幸福时刻</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">14:00</div>
-        <div class="timeline-content">
-          <h4>餐后娱乐</h4>
-          <p>请至茶楼，安排有麻将娱乐</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="instructions">
-    <h4>使用说明</h4>
-    <p>1. 在搜索框输入宾客姓名、拼音或拼音首字母</p>
-    <p>2. 点击座位分布图中的桌号可查看该桌宾客</p>
-    <p>3. 搜索结果中，当前搜索的宾客会高亮显示</p>
-    <p>4. 可直接分享此页面链接给其他宾客</p>
-  </div>
-
-  <div class="footer">
-    祝您有一个美好的婚礼体验 💐
-  </div>
-</div>
-
-<script>
-  // 拼音转换工具（简版）
-  const pinyinDict = {
-    '黄': 'huang', '露': 'lu',
-    '刘': 'liu', '亦': 'yi', '乐': 'le',
-    '胡': 'hu', '家': 'jia', '铭': 'ming',
-    '林': 'lin', '玥': 'yue', '昊': 'hao',
-    '高': 'gao', '鑫': 'xin',
-    '张': 'zhang', '环': 'huan', '宇': 'yu',
-    '杰': 'jie', '王': 'wang', '钰': 'yu', '轩': 'xuan',
-    '罗': 'luo', '翔': 'xiang',
-    '赵': 'zhao', '欣': 'xin', '新': 'xin',
-    '斯': 'si', '小': 'xiao', '寒': 'han',
-    '潘': 'pan', '俊': 'jun', '伯': 'bo',
-    // 可以继续添加其他字符
-  };
-
-  function getPinyin(name) {
-    let fullPinyin = '';
-    let initials = '';
-
-    for (let char of name) {
-      if (pinyinDict[char]) {
-        fullPinyin += pinyinDict[char];
-        initials += pinyinDict[char].charAt(0);
-      } else {
-        fullPinyin += char;
-        initials += char;
-      }
-    }
-
-    return {
-      fullPinyin: fullPinyin.toLowerCase(),
-      initials: initials.toLowerCase()
-    };
-  }
-
-  // 宾客数据
-  const guestsData = [
-    {
-      table: 1,
-      guests: [
-        { name: "黄露" },
-        { name: "刘亦乐" },
-        { name: "胡家铭" },
-        { name: "林玥昊" },
-        { name: "高鑫" }
-      ]
-    },
-    {
-      table: 2,
-      guests: [
-        { name: "张环宇" },
-        { name: "刘杰" },
-        { name: "王钰轩" },
-        { name: "罗宇翔" },
-        { name: "赵欣新" },
-        { name: "斯小寒" },
-        { name: "潘俊伯" }
-      ]
-    },
-    // 这里添加第3-15桌的数据，格式相同
-    // 为演示，先添加一些示例数据
-    {
-      table: 3,
-      guests: [
-        { name: "李明" },
-        { name: "王芳" },
-        { name: "张伟" },
-        { name: "刘洋" },
-        { name: "陈静" }
-      ]
-    },
-    {
-      table: 4,
-      guests: [
-        { name: "周涛" },
-        { name: "吴霞" },
-        { name: "郑军" },
-        { name: "孙丽" },
-        { name: "钱勇" }
-      ]
-    },
-    // ... 继续添加直到15桌
-  ];
-
-  // 为所有宾客生成拼音数据
-  guestsData.forEach(tableData => {
-    tableData.guests.forEach(guest => {
-      const pinyinData = getPinyin(guest.name);
-      guest.fullPinyin = pinyinData.fullPinyin;
-      guest.initials = pinyinData.initials;
-    });
-  });
-
-  // DOM元素
-  const searchInput = document.getElementById('searchInput');
-  const resultCard = document.getElementById('resultCard');
-  const tableNumber = document.getElementById('tableNumber');
-  const guestList = document.getElementById('guestList');
-  const emptyResult = document.getElementById('emptyResult');
-  const tablesGrid = document.getElementById('tablesGrid');
-
-  // 搜索函数
-  function searchGuest(query) {
-    query = query.trim().toLowerCase();
-    if (!query) {
-      resultCard.classList.remove('show');
-      emptyResult.style.display = 'block';
-      emptyResult.innerHTML = '请输入姓名进行搜索';
-      return;
-    }
-
-    let found = false;
-
-    // 遍历所有桌
-    guestsData.forEach(tableData => {
-      // 遍历该桌所有宾客
-      tableData.guests.forEach(guest => {
-        // 检查是否匹配（姓名、全拼、首字母）
-        if (guest.name.toLowerCase().includes(query) ||
-                guest.fullPinyin.includes(query) ||
-                guest.initials.includes(query)) {
-
-          displayResult(tableData, guest.name);
-          found = true;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Please find your seat</title>
+    <style>
+        /* 导入楷体及基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-      });
-    });
 
-    if (!found) {
-      resultCard.classList.remove('show');
-      emptyResult.style.display = 'block';
-      emptyResult.innerHTML = `未找到 "${query}" 对应的宾客<br><small>请检查输入是否正确</small>`;
-    }
-  }
+        body {
+            /* 肌理感背景：奶油底色搭配微弱颗粒感 */
+            background-color: #fcf8f2;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            color: #000000;
+            font-family: "STKaiti", "楷体", "Kaiti SC", "Kaiti", serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
 
-  // 显示结果
-  function displayResult(tableData, highlightName) {
-    resultCard.classList.add('show');
-    emptyResult.style.display = 'none';
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
 
-    tableNumber.innerHTML = `第 ${tableData.table} 桌`;
+        /* 蝴蝶结装饰图 */
+        .bow-icon {
+            width: 80px;
+            margin: 0 auto 10px;
+            display: block;
+        }
 
-    guestList.innerHTML = '';
-    tableData.guests.forEach((guest, index) => {
-      const li = document.createElement('li');
-      li.textContent = guest.name;
-      if (guest.name === highlightName) {
-        li.classList.add('highlight');
-      }
-      // 添加延迟动画
-      li.style.animation = `fadeIn 0.3s ease ${index * 0.1}s both`;
-      guestList.appendChild(li);
-    });
+        .header {
+            margin-bottom: 30px;
+        }
 
-    // 更新座位图高亮
-    updateTableHighlight(tableData.table);
-  }
+        .header h1 {
+            font-size: 32px;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
 
-  // 显示某桌的所有宾客
-  function showTableGuests(tableNum) {
-    const tableData = guestsData.find(t => t.table === tableNum);
-    if (tableData) {
-      displayResult(tableData, '');
-      searchInput.value = '';
-    }
-  }
+        .header p {
+            font-size: 16px;
+            opacity: 0.8;
+        }
 
-  // 更新座位图高亮
-  function updateTableHighlight(activeTable) {
-    document.querySelectorAll('.table-item').forEach(item => {
-      const tableNum = parseInt(item.dataset.table);
-      if (tableNum === activeTable) {
-        item.classList.add('active');
-      } else {
-        item.classList.remove('active');
-      }
-    });
-  }
+        /* 搜索框样式 */
+        .search-box {
+            margin-bottom: 30px;
+            position: relative;
+        }
 
-  // 初始化座位分布图
-  function initTableMap() {
-    guestsData.forEach((tableData, index) => {
-      const tableDiv = document.createElement('div');
-      tableDiv.className = 'table-item';
-      tableDiv.dataset.table = tableData.table;
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #000;
+            background: transparent;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+        }
 
-      tableDiv.innerHTML = `
-                    <div class="table-number-circle">${tableData.table}</div>
-                    <div class="table-guest-count">${tableData.guests.length}人</div>
-                `;
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+        }
 
-      // 添加延迟动画
-      tableDiv.style.animation = `fadeIn 0.4s ease ${index * 0.05}s both`;
+        /* 结果卡片 */
+        .result-card {
+            border: 1px solid #000;
+            padding: 25px;
+            margin-bottom: 30px;
+            display: none;
+            background: rgba(255, 255, 255, 0.3);
+        }
 
-      tableDiv.addEventListener('click', () => {
-        showTableGuests(tableData.table);
-      });
+        .result-card.show {
+            display: block;
+        }
 
-      tablesGrid.appendChild(tableDiv);
-    });
-  }
+        .table-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-  // 初始化
-  document.addEventListener('DOMContentLoaded', () => {
-    // 页面加载动画
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.6s ease';
-    
-    setTimeout(() => {
-      document.body.style.opacity = '1';
-    }, 100);
+        .guest-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            list-style: none;
+        }
 
-    initTableMap();
+        .guest-tag {
+            padding: 5px 12px;
+            border: 1px dashed #000;
+            font-size: 16px;
+        }
 
-    // 搜索输入事件
-    let searchTimer;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => {
-        searchGuest(e.target.value);
-      }, 300);
-    });
+        .guest-tag.highlight {
+            background: #000;
+            color: #fff;
+            border-style: solid;
+        }
 
-    // 显示使用说明
-    setTimeout(() => {
-      if (!searchInput.value) {
-        emptyResult.innerHTML = '请输入姓名进行搜索<br><small>例如：林玥昊、linyuehao 或 lyh</small>';
-      }
-    }, 1000);
-  });
+        /* 座位图分布 */
+        .section-title {
+            font-size: 22px;
+            margin: 40px 0 20px;
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            padding: 0 20px 5px;
+        }
 
-  // URL参数处理（支持直接分享链接）
-  function checkUrlParams() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const name = urlParams.get('name');
-    if (name) {
-      searchInput.value = name;
-      searchGuest(name);
-    }
-  }
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* 调整为2列以适应长厅名 */
+            gap: 15px;
+            margin-bottom: 40px;
+        }
 
-  // 页面加载时检查URL参数
-  window.addEventListener('load', checkUrlParams);
-</script>
+        .table-item {
+            border: 1px solid #000;
+            padding: 10px 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .table-item.active {
+            background: #000;
+            color: #fff;
+        }
+
+        .table-item h4 {
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        /* 时间线样式 */
+        .timeline {
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .timeline-time {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content h4 {
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .timeline-content p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-bottom: 30px;
+            border-top: 1px solid #000;
+            padding-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <svg class="bow-icon" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 30c-10-20-40-20-40 0 0 15 20 20 40 5 20 15 40 10 40-5 0-20-30-20-40 0z" fill="none"
+                stroke="#000" stroke-width="1.5" />
+            <circle cx="50" cy="30" r="4" fill="#000" />
+            <path d="M48 34l-8 20M52 34l8 20" stroke="#000" stroke-width="1.5" />
+        </svg>
+
+        <div class="header">
+            <h1>Please find your seat</h1>
+            <p>输入姓名、拼音或首字母查询座位</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search your name..."
+                autocomplete="off">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+        </div>
+
+        <div class="result-card" id="resultCard">
+            <div class="table-title" id="resTable"></div>
+            <ul class="guest-list" id="resGuests"></ul>
+        </div>
+
+        <h3 class="section-title">Table Setting</h3>
+        <div class="tables-grid" id="tablesGrid"></div>
+
+        <h3 class="section-title">Wedding Timeline</h3>
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="timeline-time">10:00</span>
+                <div class="timeline-content">
+                    <h4>室内合照环节</h4>
+                    <p>与新人合影留念，记录美好时刻</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">11:38</span>
+                <div class="timeline-content">
+                    <h4>仪式环节</h4>
+                    <p>婚礼正式仪式，见证幸福时刻</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">14:00</span>
+                <div class="timeline-content">
+                    <h4>餐厅娱乐</h4>
+                    <p>请至茶楼，安排有麻将娱乐</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            祝您有一个美好的婚礼体验<br>
+            百年好合 · 永结同心
+        </div>
+    </div>
+
+    <script>
+        const pinyinDict = { '黄': 'huang', '露': 'lu', '刘': 'liu', '亦': 'yi', '乐': 'le', '胡': 'hu', '家': 'jia', '铭': 'ming', '林': 'lin', '玥': 'yue', '昊': 'hao', '高': 'gao', '鑫': 'xin', '罗': 'luo', '翔': 'xiang', '赵': 'zhao', '欣': 'xin', '新': 'xin', '张': 'zhang', '环': 'huan', '宇': 'yu', '杰': 'jie', '陈': 'chen', '卓': 'zhuo', '飞': 'fei', '嘉': 'jia', '瑾': 'jin', '潘': 'pan', '俊': 'jun', '伯': 'bo', '田': 'tian', '植': 'zhi', '李': 'li', '洪': 'hong', '全': 'quan', '宁': 'ning', '傲': 'ao', '侠': 'xia', '博': 'bo', '文': 'wen', '云': 'yun', '桥': 'qiao', '侨': 'qiao', '覃': 'qin', '逸': 'yi', '知': 'zhi', '非': 'fei', '志': 'zhi', '浩': 'hao', '华': 'hua', '健': 'jian', '昂': 'ang', '卢': 'lu', '蕴': 'yun', '川': 'chuan', '雅': 'ya', '雯': 'wen', '卿': 'qing', '扬': 'yang', '帆': 'fan', '思': 'si', '成': 'cheng', '迪': 'di', '雨': 'yu', '峰': 'feng', '徐': 'xu', '卿': 'qing', '皓': 'hao', '然': 'ran', '奕': 'yi', '锋': 'feng', '祥': 'xiang', '舒': 'shu', '何': 'he', '剑': 'jian', '恒': 'heng', '嘉': 'jia', '尧': 'yao', '马': 'ma', '雪': 'xue', '玖': 'jiu', '萝': 'luo', '冯': 'feng', '潇': 'xiao', '存': 'cun', '雷': 'lei', '宋': 'song', '代': 'dai', '伟': 'wei', '馨': 'xin', '雨': 'yu', '蒙': 'meng', '迪': 'di', '真': 'zhen', '如': 'ru', '帮': 'bang', '羽': 'yu', '雅': 'ya', '静': 'jing', '曾': 'zeng', '琳': 'lin', '婷': 'ting', '志': 'zhi', '琦': 'qi', '贾': 'jia', '茹': 'ru', '鹏': 'peng', '郎': 'lang', '娘': 'niang', '父': 'fu', '母': 'mu', '继': 'ji', '红': 'hong', '谢': 'xie', '四': 'si', '季': 'ji', '房': 'fang', '春': 'chun', '平': 'ping', '彬': 'bin', '涂': 'tu', '黎': 'li', '坤': 'kun', '苏': 'su', '泽': 'ze', '源': 'yuan', '奇': 'qi', '韩': 'han', '卫': 'wei', '红': 'hong', '廖': 'liao', '玉': 'yu', '琼': 'qiong', '琴': 'qin', '樊': 'fan', '卫': 'wei', '楠': 'nan', '彬': 'bin', '毛': 'mao', '莉': 'li', '媛': 'yuan', '欧': 'ou', '丽': 'li', '兴': 'xing', '康': 'kang', '峻': 'jun', '娟': 'juan', '许': 'xu', '文': 'wen', '婷': 'ting', '蒋': 'jiang', '平': 'ping', '衡': 'heng', '玲': 'ling', '芳': 'fang', '烈': 'lie', '晓': 'xiao', '涛': 'tao', '吴': 'wu', '春': 'chun', '华': 'hua', '蓉': 'rong', '林': 'lin', '伍': 'wu', '静': 'jing', '红': 'hong', '莉': 'li', '升': 'sheng', '兰': 'lan', '肖': 'xiao', '尧': 'yao', '启': 'qi', '祥': 'xiang', '军': 'jun', '辉': 'hui', '阳': 'yang', '厚': 'hou', '义': 'yi', '谭': 'tan', '周': 'zhou', '友': 'you', '学': 'xue', '静': 'jing', '定': 'ding', '琴': 'qin', '西': 'xi', '东': 'dong', '万': 'wan', '家': 'jia', '丽': 'li', '欣': 'xin', '袁': 'yuan', '姐': 'jie', '克': 'ke', '勤': 'qin', '剑': 'jian', '文': 'wen', '明': 'ming', '兵': 'bing', '英': 'ying', '绮': 'qi', '祥': 'xiang', '瑜': 'yu', '渊': 'yuan', '玫': 'mei', '芗': 'xiang', '佳': 'jia' };
+
+        const seatingData = [
+            { table: "悦庭厅1", guests: ["新郎", "新娘", "新郎父母", "新娘父亲", "新娘母亲", "黄渊", "吴西东", "吴英绮", "杨祥祥"] },
+            { table: "悦庭厅2", guests: ["杨雅静", "曾琳", "曾婷", "王志琦", "贾茹", "张鹏", "高鑫", "高瑜", "黄露"] },
+            { table: "悦庭厅3", guests: ["刘亦乐", "胡家铭", "林玥昊", "罗宇翔", "赵欣新"] },
+            { table: "悦庭厅5", guests: ["张环宇", "刘杰", "陈卓飞", "张嘉瑾", "潘俊伯"] },
+            { table: "悦庭厅6", guests: ["李昂", "田植", "李雨峰", "李博文", "罗云侨", "覃逸飞"] },
+            { table: "悦庭厅7", guests: ["陈知非", "刘志浩", "李华健", "陈雅雯", "卢蕴川"] },
+            { table: "悦庭厅8", guests: ["卿扬帆", "李思成", "张迪", "李洪全", "徐卿", "张皓然", "李奕锋"] },
+            { table: "悦庭厅9", guests: ["赵祥舒", "何剑宇", "陈尧", "马雪文", "成玫芗", "冯潇扬"] },
+            { table: "悦庭厅10", guests: ["刘存雷", "张俊", "宋代伟", "黄馨雨", "何蒙迪", "李真如", "覃帮羽"] },
+            { table: "锦程厅1", guests: ["杨继红", "谢四季", "房春平", "陈彬"] },
+            { table: "锦程厅2", guests: ["涂红黎", "李坤", "苏泽源", "韩卫红", "廖玉琼"] },
+            { table: "锦程厅3", guests: ["冯琴", "樊卫华", "黄楠彬", "毛莉", "宋媛媛"] },
+            { table: "锦程厅5", guests: ["欧春丽", "樊兴", "苏娟", "许文婷"] },
+            { table: "锦程厅6", guests: ["康峻", "蒋平", "衡玲芳", "文烈", "衡莉"] },
+            { table: "锦程厅7", guests: ["张晓涛", "吴春华", "曾小蓉", "曾小林", "伍静", "伍红"] },
+            { table: "锦程厅8", guests: ["王升兰", "张定琴", "张定万", "张家丽"] },
+            { table: "锦程厅9", guests: ["张家欣", "袁姐（卢佳）", "刘克勤", "刘克剑", "刘万明"] },
+            { table: "锦程厅10", guests: ["肖尧", "肖启祥", "肖军", "肖辉", "阳厚义", "谭周友", "肖学静"] }
+        ];
+
+        function getPinyinData(name) {
+            let full = '', init = '';
+            for (let char of name) {
+                let p = pinyinDict[char] || char.toLowerCase();
+                full += p; init += p[0];
+            }
+            return { full, init };
+        }
+
+        const processedData = seatingData.map(t => ({
+            ...t,
+            guestObjects: t.guests.map(name => ({ name, ...getPinyinData(name) }))
+        }));
+
+        const searchInput = document.getElementById('searchInput');
+        const resultCard = document.getElementById('resultCard');
+        const tablesGrid = document.getElementById('tablesGrid');
+
+        processedData.forEach(t => {
+            const div = document.createElement('div');
+            div.className = 'table-item';
+            div.dataset.id = t.table;
+            div.innerHTML = `<h4>${t.table}</h4>`;
+            div.onclick = () => renderResult(t, '');
+            tablesGrid.appendChild(div);
+        });
+
+        function renderResult(data, highlight) {
+            resultCard.classList.add('show');
+            document.getElementById('resTable').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${data.table}`;
+
+            const listHtml = data.guestObjects.map(g => {
+                const isMatch = highlight && (
+                    g.name.includes(highlight) ||
+                    g.full.includes(highlight) ||
+                    g.init.includes(highlight)
+                );
+                return `<li class="guest-tag ${isMatch ? 'highlight' : ''}">${g.name}</li>`;
+            }).join('');
+
+            document.getElementById('resGuests').innerHTML = listHtml;
+            document.querySelectorAll('.table-item').forEach(el => el.classList.toggle('active', el.dataset.id === data.table));
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.trim().toLowerCase();
+            if (!val) {
+                resultCard.classList.remove('show');
+                document.querySelectorAll('.table-item').forEach(el => el.classList.remove('active'));
+                return;
+            }
+            const found = processedData.find(t => t.guestObjects.some(g => g.name.includes(val) || g.full.includes(val) || g.init.includes(val)));
+            if (found) renderResult(found, val);
+        });
+    </script>
 </body>
+
 </html>
