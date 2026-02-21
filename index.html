@@ -1,235 +1,211 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Please find your seat</title>
+    <title>婚礼宾客座位表 - 打印版</title>
     <style>
-        /* 导入楷体及基础样式 */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         body {
-            /* 肌理感背景：奶油底色搭配微弱颗粒感 */
-            background-color: #fcf8f2;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            color: #000000;
-            font-family: "STKaiti", "楷体", "Kaiti SC", "Kaiti", serif;
-            line-height: 1.6;
-            padding: 20px;
+            font-family: "STKaiti", "楷体", serif;
+            padding: 40px;
+            color: #000;
+            background: #fff;
         }
 
-        .container { max-width: 600px; margin: 0 auto; text-align: center; }
-
-        /* 蝴蝶结装饰图 */
-        .bow-icon { width: 80px; margin: 0 auto 10px; display: block; }
-
-        .header { margin-bottom: 30px; }
-        .header h1 { font-size: 32px; font-weight: normal; margin-bottom: 5px; }
-        .header p { font-size: 16px; opacity: 0.8; }
-
-        /* 搜索框样式 */
-        .search-box { margin-bottom: 30px; position: relative; }
-        .search-input {
-            width: 100%;
-            padding: 12px 40px 12px 15px;
-            border: 1px solid #000;
-            background: transparent;
-            font-family: inherit;
-            font-size: 16px;
-            outline: none;
+        .print-header {
             text-align: center;
-        }
-        .search-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-        }
-
-        /* 结果卡片 */
-        .result-card {
-            border: 1px solid #000;
-            padding: 25px;
+            border-bottom: 2px solid #000;
             margin-bottom: 30px;
-            display: none;
-            background: rgba(255,255,255,0.3);
+            padding-bottom: 10px;
         }
-        .result-card.show { display: block; }
-        .table-title { font-size: 24px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .guest-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; list-style: none; }
-        .guest-tag { padding: 5px 12px; border: 1px dashed #000; font-size: 16px; }
-        .guest-tag.highlight { background: #000; color: #fff; border-style: solid; }
 
-        /* 座位图分布 */
-        .section-title { font-size: 22px; margin: 40px 0 20px; border-bottom: 1px solid #000; display: inline-block; padding: 0 20px 5px; }
-        .tables-grid {
+        .print-header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .print-header p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .table-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(2, 1fr);
+            /* 打印建议两列，字号可以大一些 */
+            gap: 20px;
         }
-        .table-item {
+
+        .table-card {
             border: 1px solid #000;
-            padding: 10px 5px;
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 15px;
+            page-break-inside: avoid;
+            /* 防止跨页断开 */
         }
-        .table-item.active { background: #000; color: #fff; }
-        .table-item h4 { font-size: 14px; font-weight: normal; }
 
-        /* 时间线样式 */
-        .timeline { margin: 40px 0; }
-        .timeline-item { margin-bottom: 25px; position: relative; }
-        .timeline-time { font-size: 18px; font-weight: bold; display: block; margin-bottom: 5px; }
-        .timeline-content h4 { font-size: 18px; font-weight: normal; }
-        .timeline-content p { font-size: 14px; opacity: 0.8; }
+        .table-num {
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+            display: block;
+        }
 
-        .footer { margin-top: 50px; padding-bottom: 30px; border-top: 1px solid #000; padding-top: 20px; font-size: 14px; }
+        .guest-names {
+            font-size: 16px;
+            line-height: 1.8;
+            word-break: break-all;
+        }
+
+        /* 流程表样式 */
+        .timeline-section {
+            margin-top: 40px;
+            border-top: 2px solid #000;
+            padding-top: 20px;
+        }
+
+        .timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .timeline-table td {
+            padding: 8px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .time-col {
+            font-weight: bold;
+            width: 80px;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <svg class="bow-icon" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 30c-10-20-40-20-40 0 0 15 20 20 40 5 20 15 40 10 40-5 0-20-30-20-40 0z" fill="none" stroke="#000" stroke-width="1.5"/>
-        <circle cx="50" cy="30" r="4" fill="#000"/>
-        <path d="M48 34l-8 20M52 34l8 20" stroke="#000" stroke-width="1.5"/>
-    </svg>
-
-    <div class="header">
-        <h1>Please find your seat</h1>
-        <p>输入姓名、拼音或首字母查询座位</p>
+    <div class="print-header">
+        <h1>Wedding Guest Seating Chart</h1>
+        <p>百年好合 · 永结同心</p>
     </div>
 
-    <div class="search-box">
-        <input type="text" class="search-input" id="searchInput" placeholder="Search your name..." autocomplete="off">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-    </div>
-
-    <div class="result-card" id="resultCard">
-        <div class="table-title" id="resTable"></div>
-        <ul class="guest-list" id="resGuests"></ul>
-    </div>
-
-    <h3 class="section-title">Table Setting</h3>
-    <div class="tables-grid" id="tablesGrid"></div>
-
-    <h3 class="section-title">Wedding Timeline</h3>
-    <div class="timeline">
-        <div class="timeline-item">
-            <span class="timeline-time">10:00</span>
-            <div class="timeline-content">
-                <h4>室内合照环节</h4>
-                <p>与新人合影留念，记录美好时刻</p>
-            </div>
+    <div class="table-grid">
+        <div class="table-card">
+            <span class="table-num">Table 1</span>
+            <div class="guest-names">新郎、新娘、新郎父母、新娘父母、肖尧、肖启祥、吴西东、杨祥祥</div>
         </div>
-        <div class="timeline-item">
-            <span class="timeline-time">11:58</span>
-            <div class="timeline-content">
-                <h4>仪式&就餐</h4>
-                <p>婚礼正式仪式，见证幸福时刻</p>
-            </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 2</span>
+            <div class="guest-names">杨雅静、曾琳、曾婷、王志琦、贾茹、张鹏、高鑫、高瑜、黄露</div>
         </div>
-        <div class="timeline-item">
-            <span class="timeline-time">14:00</span>
-            <div class="timeline-content">
-                <h4>娱乐</h4>
-                <p>请至茶楼，安排有麻将娱乐</p>
-            </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 3</span>
+            <div class="guest-names">刘亦乐、胡家铭、林玥昊、罗宇翔、赵欣新</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 5</span>
+            <div class="guest-names">张环宇、刘杰、陈卓飞、张嘉瑾、潘俊伯</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 6</span>
+            <div class="guest-names">李昂、田植、李雨峰、李博文、罗云侨、覃逸飞</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 7</span>
+            <div class="guest-names">陈知非、刘志浩、李华健、陈雅雯、卢蕴川</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 8</span>
+            <div class="guest-names">卿扬帆、李思成、张迪、李洪全、徐卿、张皓然、李奕锋</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 9</span>
+            <div class="guest-names">赵祥舒、何剑宇、陈尧、马雪文、成玫芗、冯潇扬</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 10</span>
+            <div class="guest-names">刘存雷、张俊、宋代伟、黄馨雨、何蒙迪、李真如、覃帮羽</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 11</span>
+            <div class="guest-names">父母同事</div>
+        </div>
+        <div class="table-card">
+            <span class="table-num">Table 12</span>
+            <div class="guest-names">父母同事</div>
+        </div>
+        <div class="table-card">
+            <span class="table-num">Table 13</span>
+            <div class="guest-names">父母同事</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 15</span>
+            <div class="guest-names">父母好友</div>
+        </div>
+        <div class="table-card">
+            <span class="table-num">Table 16</span>
+            <div class="guest-names">父母好友</div>
+        </div>
+        <div class="table-card">
+            <span class="table-num">Table 17</span>
+            <div class="guest-names">父母好友</div>
+        </div>
+
+        <div class="table-card">
+            <span class="table-num">Table 18</span>
+            <div class="guest-names">亲朋</div>
+        </div>
+        <div class="table-card">
+            <span class="table-num">Table 19</span>
+            <div class="guest-names">亲朋</div>
+        </div>
+        <div class="table-card">
+            <span class="table-num">Table 20</span>
+            <div class="guest-names">亲朋</div>
         </div>
     </div>
 
-    <div class="footer">
-        祝您有一个美好的婚礼体验<br>
-        百年好合 · 永结同心
+    <div class="timeline-section">
+        <h3>Wedding Timeline / 婚礼流程</h3>
+        <table class="timeline-table">
+            <tr>
+                <td class="time-col">10:00</td>
+                <td>室内合照环节（与新人合影留念）</td>
+            </tr>
+            <tr>
+                <td class="time-col">11:58</td>
+                <td>五楼仪式 & 二楼&三楼就餐</td>
+            </tr>
+            <tr>
+                <td class="time-col">14:00</td>
+                <td>娱乐（请至茶楼，安排有麻将娱乐）</td>
+            </tr>
+        </table>
     </div>
-</div>
 
-<script>
-    // 扩充拼音字典以支持新关键词
-    const pinyinDict = {'新':'xin','郎':'lang','娘':'niang','父':'fu','母':'mu','肖':'xiao','尧':'yao','启':'qi','祥':'xiang','吴':'wu','西':'xi','东':'dong','杨':'yang','雅':'ya','静':'jing','曾':'zeng','琳':'lin','婷':'ting','王':'wang','志':'zhi','琦':'qi','贾':'jia','茹':'ru','张':'zhang','鹏':'peng','高':'gao','鑫':'xin','瑜':'yu','露':'lu','刘':'liu','亦':'yi','乐':'le','胡':'hu','家':'jia','铭':'ming','林':'lin','玥':'yue','昊':'hao','罗':'luo','宇':'yu','翔':'xiang','赵':'zhao','欣':'xin','环':'huan','杰':'jie','陈':'chen','卓':'zhuo','飞':'fei','嘉':'jia','瑾':'jin','潘':'pan','俊':'jun','伯':'bo','李':'li','昂':'ang','田':'tian','植':'zhi','雨':'yu','峰':'feng','博':'bo','文':'wen','云':'yun','侨':'qiao','覃':'qin','逸':'yi','知':'zhi','非':'fei','浩':'hao','华':'hua','健':'jian','雯':'wen','卢':'lu','蕴':'yun','川':'chuan','卿':'qing','扬':'yang','帆':'fan','思':'si','成':'cheng','迪':'di','洪':'hong','全':'quan','徐':'xu','皓':'hao','然':'ran','奕':'yi','锋':'feng','舒':'shu','何':'he','剑':'jian','恒':'heng','尧':'yao','马':'ma','雪':'xue','玖':'jiu','玫':'mei','芗':'xiang','冯':'feng','潇':'xiao','存':'cun','雷':'lei','宋':'song','代':'dai','伟':'wei','馨':'xin','蒙':'meng','真':'zhen','如':'ru','帮':'bang','羽':'yu','同':'tong','事':'shi','好':'hao','友':'you','亲':'qin','朋':'peng'};
+    <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #666;" class="no-print">
+        提示：建议使用 Chrome 浏览器打开并按下 Ctrl + P，背景图形设为“无”以节省墨水。
+    </div>
 
-    const seatingData = [
-        { table: "Table 1", guests: ["新郎", "新娘", "新郎父母", "新娘父母", "肖尧", "肖启祥", "吴西东", "杨祥祥"] },
-        { table: "Table 2", guests: ["杨雅静", "曾琳", "曾婷", "王志琦", "贾茹", "张鹏", "高鑫", "高瑜", "黄露"] },
-        { table: "Table 3", guests: ["刘亦乐", "胡家铭", "林玥昊", "罗宇翔", "赵欣新"] },
-        { table: "Table 5", guests: ["张环宇", "刘杰", "陈卓飞", "张嘉瑾", "潘俊伯"] },
-        { table: "Table 6", guests: ["李昂", "田植", "李雨峰", "李博文", "罗云侨", "覃逸飞"] },
-        { table: "Table 7", guests: ["陈知非", "刘志浩", "李华健", "陈雅雯", "卢蕴川"] },
-        { table: "Table 8", guests: ["卿扬帆", "李思成", "张迪", "李洪全", "徐卿", "张皓然", "李奕锋"] },
-        { table: "Table 9", guests: ["赵祥舒", "何剑宇", "陈尧", "马雪文", "成玫芗", "冯潇扬"] },
-        { table: "Table 10", guests: ["刘存雷", "张俊", "宋代伟", "黄馨雨", "何蒙迪", "李真如", "覃帮羽"] },
-        // 更新点：父母同事
-        { table: "Table 11", guests: ["父母同事"] },
-        { table: "Table 12", guests: ["父母同事"] },
-        { table: "Table 13", guests: ["父母同事"] },
-        // 更新点：父母好友
-        { table: "Table 15", guests: ["父母好友"] },
-        { table: "Table 16", guests: ["父母好友"] },
-        { table: "Table 17", guests: ["父母好友"] },
-        { table: "Table 18", guests: ["亲朋"] },
-        { table: "Table 19", guests: ["亲朋"] },
-        { table: "Table 20", guests: ["亲朋"] }
-    ];
-
-    function getPinyinData(name) {
-        let full = '', init = '';
-        for(let char of name) {
-            let p = pinyinDict[char] || char.toLowerCase();
-            full += p; init += p[0];
-        }
-        return { full, init };
-    }
-
-    const processedData = seatingData.map(t => ({
-        ...t,
-        guestObjects: t.guests.map(name => ({ name, ...getPinyinData(name) }))
-    }));
-
-    const searchInput = document.getElementById('searchInput');
-    const resultCard = document.getElementById('resultCard');
-    const tablesGrid = document.getElementById('tablesGrid');
-
-    processedData.forEach(t => {
-        const div = document.createElement('div');
-        div.className = 'table-item';
-        div.dataset.id = t.table;
-        div.innerHTML = `<h4>${t.table}</h4>`;
-        div.onclick = () => renderResult(t, '');
-        tablesGrid.appendChild(div);
-    });
-
-    function renderResult(data, highlight) {
-        resultCard.classList.add('show');
-        document.getElementById('resTable').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${data.table}`;
-        
-        const listHtml = data.guestObjects.map(g => {
-            const isMatch = highlight && (
-                g.name.includes(highlight) || 
-                g.full.includes(highlight) || 
-                g.init.includes(highlight)
-            );
-            return `<li class="guest-tag ${isMatch ? 'highlight' : ''}">${g.name}</li>`;
-        }).join('');
-        
-        document.getElementById('resGuests').innerHTML = listHtml;
-        document.querySelectorAll('.table-item').forEach(el => el.classList.toggle('active', el.dataset.id === data.table));
-    }
-
-    searchInput.addEventListener('input', (e) => {
-        const val = e.target.value.trim().toLowerCase();
-        if(!val) { 
-            resultCard.classList.remove('show'); 
-            document.querySelectorAll('.table-item').forEach(el => el.classList.remove('active')); 
-            return; 
-        }
-        const found = processedData.find(t => t.guestObjects.some(g => g.name.includes(val) || g.full.includes(val) || g.init.includes(val)));
-        if(found) renderResult(found, val);
-    });
-</script>
 </body>
+
 </html>
