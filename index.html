@@ -131,8 +131,7 @@
 
         .tables-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            /* 调整为2列以适应长厅名 */
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin-bottom: 40px;
         }
@@ -233,16 +232,16 @@
                 </div>
             </div>
             <div class="timeline-item">
-                <span class="timeline-time">11:38</span>
+                <span class="timeline-time">11:58</span>
                 <div class="timeline-content">
-                    <h4>仪式环节</h4>
+                    <h4>仪式&就餐</h4>
                     <p>婚礼正式仪式，见证幸福时刻</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <span class="timeline-time">14:00</span>
                 <div class="timeline-content">
-                    <h4>餐厅娱乐</h4>
+                    <h4>娱乐</h4>
                     <p>请至茶楼，安排有麻将娱乐</p>
                 </div>
             </div>
@@ -255,27 +254,27 @@
     </div>
 
     <script>
-        const pinyinDict = { '黄': 'huang', '露': 'lu', '刘': 'liu', '亦': 'yi', '乐': 'le', '胡': 'hu', '家': 'jia', '铭': 'ming', '林': 'lin', '玥': 'yue', '昊': 'hao', '高': 'gao', '鑫': 'xin', '罗': 'luo', '翔': 'xiang', '赵': 'zhao', '欣': 'xin', '新': 'xin', '张': 'zhang', '环': 'huan', '宇': 'yu', '杰': 'jie', '陈': 'chen', '卓': 'zhuo', '飞': 'fei', '嘉': 'jia', '瑾': 'jin', '潘': 'pan', '俊': 'jun', '伯': 'bo', '田': 'tian', '植': 'zhi', '李': 'li', '洪': 'hong', '全': 'quan', '宁': 'ning', '傲': 'ao', '侠': 'xia', '博': 'bo', '文': 'wen', '云': 'yun', '桥': 'qiao', '侨': 'qiao', '覃': 'qin', '逸': 'yi', '知': 'zhi', '非': 'fei', '志': 'zhi', '浩': 'hao', '华': 'hua', '健': 'jian', '昂': 'ang', '卢': 'lu', '蕴': 'yun', '川': 'chuan', '雅': 'ya', '雯': 'wen', '卿': 'qing', '扬': 'yang', '帆': 'fan', '思': 'si', '成': 'cheng', '迪': 'di', '雨': 'yu', '峰': 'feng', '徐': 'xu', '卿': 'qing', '皓': 'hao', '然': 'ran', '奕': 'yi', '锋': 'feng', '祥': 'xiang', '舒': 'shu', '何': 'he', '剑': 'jian', '恒': 'heng', '嘉': 'jia', '尧': 'yao', '马': 'ma', '雪': 'xue', '玖': 'jiu', '萝': 'luo', '冯': 'feng', '潇': 'xiao', '存': 'cun', '雷': 'lei', '宋': 'song', '代': 'dai', '伟': 'wei', '馨': 'xin', '雨': 'yu', '蒙': 'meng', '迪': 'di', '真': 'zhen', '如': 'ru', '帮': 'bang', '羽': 'yu', '雅': 'ya', '静': 'jing', '曾': 'zeng', '琳': 'lin', '婷': 'ting', '志': 'zhi', '琦': 'qi', '贾': 'jia', '茹': 'ru', '鹏': 'peng', '郎': 'lang', '娘': 'niang', '父': 'fu', '母': 'mu', '继': 'ji', '红': 'hong', '谢': 'xie', '四': 'si', '季': 'ji', '房': 'fang', '春': 'chun', '平': 'ping', '彬': 'bin', '涂': 'tu', '黎': 'li', '坤': 'kun', '苏': 'su', '泽': 'ze', '源': 'yuan', '奇': 'qi', '韩': 'han', '卫': 'wei', '红': 'hong', '廖': 'liao', '玉': 'yu', '琼': 'qiong', '琴': 'qin', '樊': 'fan', '卫': 'wei', '楠': 'nan', '彬': 'bin', '毛': 'mao', '莉': 'li', '媛': 'yuan', '欧': 'ou', '丽': 'li', '兴': 'xing', '康': 'kang', '峻': 'jun', '娟': 'juan', '许': 'xu', '文': 'wen', '婷': 'ting', '蒋': 'jiang', '平': 'ping', '衡': 'heng', '玲': 'ling', '芳': 'fang', '烈': 'lie', '晓': 'xiao', '涛': 'tao', '吴': 'wu', '春': 'chun', '华': 'hua', '蓉': 'rong', '林': 'lin', '伍': 'wu', '静': 'jing', '红': 'hong', '莉': 'li', '升': 'sheng', '兰': 'lan', '肖': 'xiao', '尧': 'yao', '启': 'qi', '祥': 'xiang', '军': 'jun', '辉': 'hui', '阳': 'yang', '厚': 'hou', '义': 'yi', '谭': 'tan', '周': 'zhou', '友': 'you', '学': 'xue', '静': 'jing', '定': 'ding', '琴': 'qin', '西': 'xi', '东': 'dong', '万': 'wan', '家': 'jia', '丽': 'li', '欣': 'xin', '袁': 'yuan', '姐': 'jie', '克': 'ke', '勤': 'qin', '剑': 'jian', '文': 'wen', '明': 'ming', '兵': 'bing', '英': 'ying', '绮': 'qi', '祥': 'xiang', '瑜': 'yu', '渊': 'yuan', '玫': 'mei', '芗': 'xiang', '佳': 'jia' };
+        const pinyinDict = { '新': 'xin', '郎': 'lang', '娘': 'niang', '父': 'fu', '母': 'mu', '肖': 'xiao', '尧': 'yao', '启': 'qi', '祥': 'xiang', '吴': 'wu', '西': 'xi', '东': 'dong', '杨': 'yang', '雅': 'ya', '静': 'jing', '曾': 'zeng', '琳': 'lin', '婷': 'ting', '王': 'wang', '志': 'zhi', '琦': 'qi', '贾': 'jia', '茹': 'ru', '张': 'zhang', '鹏': 'peng', '高': 'gao', '鑫': 'xin', '瑜': 'yu', '露': 'lu', '刘': 'liu', '亦': 'yi', '乐': 'le', '胡': 'hu', '家': 'jia', '铭': 'ming', '林': 'lin', '玥': 'yue', '昊': 'hao', '罗': 'luo', '宇': 'yu', '翔': 'xiang', '赵': 'zhao', '欣': 'xin', '环': 'huan', '杰': 'jie', '陈': 'chen', '卓': 'zhuo', '飞': 'fei', '嘉': 'jia', '瑾': 'jin', '潘': 'pan', '俊': 'jun', '伯': 'bo', '李': 'li', '昂': 'ang', '田': 'tian', '植': 'zhi', '雨': 'yu', '峰': 'feng', '博': 'bo', '文': 'wen', '云': 'yun', '侨': 'qiao', '覃': 'qin', '逸': 'yi', '知': 'zhi', '非': 'fei', '浩': 'hao', '华': 'hua', '健': 'jian', '雯': 'wen', '卢': 'lu', '蕴': 'yun', '川': 'chuan', '卿': 'qing', '扬': 'yang', '帆': 'fan', '思': 'si', '成': 'cheng', '迪': 'di', '洪': 'hong', '全': 'quan', '徐': 'xu', '皓': 'hao', '然': 'ran', '奕': 'yi', '锋': 'feng', '舒': 'shu', '何': 'he', '剑': 'jian', '恒': 'heng', '尧': 'yao', '马': 'ma', '雪': 'xue', '玖': 'jiu', '玫': 'mei', '芗': 'xiang', '冯': 'feng', '潇': 'xiao', '存': 'cun', '雷': 'lei', '宋': 'song', '代': 'dai', '伟': 'wei', '馨': 'xin', '蒙': 'meng', '真': 'zhen', '如': 'ru', '帮': 'bang', '羽': 'yu', '同': 'tong', '事': 'shi', '好': 'hao', '友': 'you', '亲': 'qin', '朋': 'peng' };
 
         const seatingData = [
-            { table: "悦庭厅1", guests: ["新郎", "新娘", "新郎父母", "新娘父亲", "新娘母亲", "黄渊", "吴西东", "吴英绮", "杨祥祥"] },
-            { table: "悦庭厅2", guests: ["杨雅静", "曾琳", "曾婷", "王志琦", "贾茹", "张鹏", "高鑫", "高瑜", "黄露"] },
-            { table: "悦庭厅3", guests: ["刘亦乐", "胡家铭", "林玥昊", "罗宇翔", "赵欣新"] },
-            { table: "悦庭厅5", guests: ["张环宇", "刘杰", "陈卓飞", "张嘉瑾", "潘俊伯"] },
-            { table: "悦庭厅6", guests: ["李昂", "田植", "李雨峰", "李博文", "罗云侨", "覃逸飞"] },
-            { table: "悦庭厅7", guests: ["陈知非", "刘志浩", "李华健", "陈雅雯", "卢蕴川"] },
-            { table: "悦庭厅8", guests: ["卿扬帆", "李思成", "张迪", "李洪全", "徐卿", "张皓然", "李奕锋"] },
-            { table: "悦庭厅9", guests: ["赵祥舒", "何剑宇", "陈尧", "马雪文", "成玫芗", "冯潇扬"] },
-            { table: "悦庭厅10", guests: ["刘存雷", "张俊", "宋代伟", "黄馨雨", "何蒙迪", "李真如", "覃帮羽"] },
-            { table: "锦程厅1", guests: ["杨继红", "谢四季", "房春平", "陈彬"] },
-            { table: "锦程厅2", guests: ["涂红黎", "李坤", "苏泽源", "韩卫红", "廖玉琼"] },
-            { table: "锦程厅3", guests: ["冯琴", "樊卫华", "黄楠彬", "毛莉", "宋媛媛"] },
-            { table: "锦程厅5", guests: ["欧春丽", "樊兴", "苏娟", "许文婷"] },
-            { table: "锦程厅6", guests: ["康峻", "蒋平", "衡玲芳", "文烈", "衡莉"] },
-            { table: "锦程厅7", guests: ["张晓涛", "吴春华", "曾小蓉", "曾小林", "伍静", "伍红"] },
-            { table: "锦程厅8", guests: ["王升兰", "张定琴", "张定万", "张家丽"] },
-            { table: "锦程厅9", guests: ["张家欣", "袁姐（卢佳）", "刘克勤", "刘克剑", "刘万明"] },
-            { table: "锦程厅10", guests: ["肖尧", "肖启祥", "肖军", "肖辉", "阳厚义", "谭周友", "肖学静"] }
+            { table: "Table 1", guests: ["新郎", "新娘", "新郎父母", "新娘父母", "肖尧", "肖启祥", "吴西东", "杨祥祥"] },
+            { table: "Table 2", guests: ["杨雅静", "曾琳", "曾婷", "王志琦", "贾茹", "张鹏", "高鑫", "高瑜", "黄露"] },
+            { table: "Table 3", guests: ["刘亦乐", "胡家铭", "林玥昊", "罗宇翔", "赵欣新"] },
+            { table: "Table 5", guests: ["张环宇", "刘杰", "陈卓飞", "张嘉瑾", "潘俊伯"] },
+            { table: "Table 6", guests: ["李昂", "田植", "李雨峰", "李博文", "罗云侨", "覃逸飞"] },
+            { table: "Table 7", guests: ["陈知非", "刘志浩", "李华健", "陈雅雯", "卢蕴川"] },
+            { table: "Table 8", guests: ["卿扬帆", "李思成", "张迪", "李洪全", "徐卿", "张皓然", "李奕锋"] },
+            { table: "Table 9", guests: ["赵祥舒", "何剑宇", "陈尧", "马雪文", "成玫芗", "冯潇扬"] },
+            { table: "Table 10", guests: ["刘存雷", "张俊", "宋代伟", "黄馨雨", "何蒙迪", "李真如", "覃帮羽"] },
+            { table: "Table 11", guests: ["同事"] },
+            { table: "Table 12", guests: ["同事"] },
+            { table: "Table 13", guests: ["同事"] },
+            { table: "Table 15", guests: ["好友"] },
+            { table: "Table 16", guests: ["好友"] },
+            { table: "Table 17", guests: ["好友"] },
+            { table: "Table 18", guests: ["亲朋"] },
+            { table: "Table 19", guests: ["亲朋"] },
+            { table: "Table 20", guests: ["亲朋"] }
         ];
 
         function getPinyinData(name) {
